@@ -1,0 +1,115 @@
+---
+title: "Writing in R Markdown"
+author: "Holly Scheer"
+date: "2023-03-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, packages, include=FALSE}
+library(tidyverse)
+```
+
+```{r, include=FALSE}
+gapminder_1997 <- read_csv("data/gapminder_1997.csv")
+```
+
+```{r, include=FALSE}
+gapminder_1997
+```
+
+
+
+This is a document that we are gonna show to the UN
+
+
+
+
+
+
+```{r, lifeExp_1997, echo=FALSE}
+ggplot(data = gapminder_1997) +
+aes(x = gdpPercap, y = lifeExp, color = continent, size = pop/1000000) +
+geom_point() +
+labs(x = "GDP Per Capita",
+y = "Life Expectancy",
+title = "Do people in wealthy countries live longer?",
+size = "Population (in millions)")
+```
+
+```{r, include=FALSE}
+nCountries <- gapminder_1997 %>% 
+  select(country) %>% 
+  n_distinct()
+
+minGDP <- gapminder_1997 %>% 
+  summarize(round(min(gdpPercap))) %>% 
+  pull() 
+
+maxGDP <- gapminder_1997 %>% 
+  summarize(round(max(gdpPercap))) %>% 
+  pull()
+```
+
+The above plot shows the relationship between GDP per capita and life expectancy for a total of `r nCountries` countries. For this set of countries, economic wealth ranged from a minimum of USD `r minGDP` to a maximum of `r maxGDP` per capita. 
+
+
+|HEADER1|HEADER2|
+|-------|-------|
+|row 1, column 1|row 1 column2|
+|row 2, column 1|row 2 column2|
+
+|Summary of Data|
+|-------|-------|
+|Number of Countries|`r nCountries`|
+|Minimum GDP per capita|`r minGDP`|
+|Maximum GDP per capita|`r maxGDP`|
+
+```{r kabletable}
+library(knitr)
+
+gapminder_1997 %>% 
+  filter(continent == "Oceania") %>% 
+  kable()
+```
+
+# Look I Can Make Words Big
+
+Exercise: R Markdown Syntax
+* Create a bullet point list with three items
+* as the first item, write the name of your current favorite programming language in bold 
+* as the second item, write the name of a function you have so far found most useful in italics
+* as the third item, write one thing you want to learn next on your porgramming journey in bold italics
+* turn your bullet point list into a numbered list 
+* create a fourth list item and find an online guide and/or cheat sheet for basic Markdown syntax; write its name down here adn hyperlink its URL
+
+* **R**
+* *summarize*
+* ***coding syntax***
+* file:///Users/scheerh/Downloads/rmarkdown.pdf
+
+1. **R**
+1. *summarize*
+1. ***coding syntax***
+1. [file:///Users/scheerh/Downloads/rmarkdown.pdf] (Great Markdown Guide)
+
+Steps for a git flow:
+1. git pull
+1. git status 
+1. git add
+1. git commit -m "message"
+4. git push 
+
+
+
+
+
+
+
+
+
+
+
